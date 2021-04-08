@@ -3,6 +3,8 @@ from animals import get_all_animals
 from animals import get_single_animal
 from locations import get_all_locations
 from locations import get_single_location
+from employees import get_all_employees
+from employees import get_single_employee
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -66,6 +68,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = f"{get_all_locations()}"
+
+        if resource == "employees":
+            if id is not None:
+                response = f"{get_single_employee(id)}"
+
+            else:
+                response = f"{get_all_employees()}"
 
         self.wfile.write(response.encode())
     # Here's a method on the class that overrides the parent's method.
