@@ -4,15 +4,18 @@ from animals import get_all_animals
 from animals import get_single_animal
 from animals import create_animal
 from animals import delete_animal
-from locations import create_location
-from locations import get_all_locations
-from locations import get_single_location
-from employees import get_all_employees
-from employees import get_single_employee
-from employees import create_employee
 from customers import get_all_customers
 from customers import get_single_customer
 from customers import create_customer
+from customers import delete_customer
+from employees import get_all_employees
+from employees import get_single_employee
+from employees import create_employee
+from employees import delete_employee
+from locations import create_location
+from locations import get_all_locations
+from locations import get_single_location
+from locations import delete_location
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -121,8 +124,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "employees":
             new_item = create_employee(post_body)
 
-        if resource == "customers":
-            new_item = create_customer(post_body)
+        if resource == "locations":
+            new_item = create_location(post_body)
 
         # Encode the new animal and send in response
         self.wfile.write(f"{new_item}".encode())
@@ -143,6 +146,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "animals":
             delete_animal(id)
+
+        if resource == "customers":
+            delete_customer(id)
+        
+        if resource == "employees":
+            delete_employee(id)
+        
+        if resource == "employees":
+            delete_employee(id)
 
         # Encode the new animal and send in response
         self.wfile.write("".encode())
