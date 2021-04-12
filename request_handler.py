@@ -9,6 +9,7 @@ from customers import get_all_customers
 from customers import get_single_customer
 from customers import create_customer
 from customers import delete_customer
+from customers import update_customer
 from employees import get_all_employees
 from employees import get_single_employee
 from employees import create_employee
@@ -132,10 +133,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(f"{new_item}".encode())
 
 
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any PUT request.
-    def do_PUT(self):
-        self.do_POST()
     
     def do_DELETE(self):
     # Set a 204 response code
@@ -172,6 +169,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "animals":
             update_animal(id, post_body)
+
+        if resource == "customers":
+            update_customer(id, post_body)
 
         # Encode the new animal and send in response
         self.wfile.write("".encode())
