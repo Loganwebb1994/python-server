@@ -4,6 +4,7 @@ from animals import get_all_animals
 from animals import get_single_animal
 from animals import create_animal
 from animals import delete_animal
+from animals import update_animal
 from customers import get_all_customers
 from customers import get_single_customer
 from customers import create_customer
@@ -159,6 +160,21 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Encode the new animal and send in response
         self.wfile.write("".encode())
 
+    def do_PUT(self):
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Delete a single animal from the list
+        if resource == "animals":
+            update_animal(id, post_body)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
 # This function is not inside the class. It is the starting
 # point of this application.
