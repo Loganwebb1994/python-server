@@ -14,6 +14,7 @@ from employees import get_all_employees
 from employees import get_single_employee
 from employees import create_employee
 from employees import delete_employee
+from employees import update_employee
 from locations import create_location
 from locations import get_all_locations
 from locations import get_single_location
@@ -119,8 +120,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "animals":
             new_item = create_animal(post_body)
 
-        if resource == "locations":
-            new_item = create_location(post_body)
+        if resource == "customers":
+            new_item = create_customer(post_body)
 
 
         if resource == "employees":
@@ -172,6 +173,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "customers":
             update_customer(id, post_body)
+
+        if resource == "employees":
+            update_employee(id, post_body)
 
         # Encode the new animal and send in response
         self.wfile.write("".encode())
