@@ -19,6 +19,7 @@ from locations import create_location
 from locations import get_all_locations
 from locations import get_single_location
 from locations import delete_location
+from locations import update_location
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -176,6 +177,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "employees":
             update_employee(id, post_body)
+        
+        if resource == "locations":
+            update_location(id, post_body)
 
         # Encode the new animal and send in response
         self.wfile.write("".encode())
