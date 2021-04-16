@@ -82,19 +82,13 @@ def create_location(location):
     return location
 
 def delete_location(id):
-    # Initial -1 value for location index, in case one isn't found
-    location_index = -1
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
 
-    # Iterate the locationS list, but use enumerate() so that you
-    # can access the index value of each item
-    for index, location in enumerate(LOCATIONS):
-        if location["id"] == id:
-            # Found the location. Store the current index.
-            location_index = index
-
-    # If the location was found, use pop(int) to remove it from list
-    if location_index >= 0:
-        LOCATIONS.pop(location_index)
+        db_cursor.execute("""
+        DELETE FROM customer
+        WHERE id = ?
+        """, (id, ))
 
 def update_location(id, new_location):
     # Iterate the ANIMALS list, but use enumerate() so that
