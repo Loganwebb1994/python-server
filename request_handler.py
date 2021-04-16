@@ -97,6 +97,16 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_customer(id)}"
                 else:
                     response = f"{get_all_customers()}"
+            elif resource == "employees":
+                if id is not None:
+                    response = f"{get_single_employee(id)}"
+                else:
+                    response = f"{get_all_employees()}"
+            elif resource == "locations":
+                if id is not None:
+                    response = f"{get_single_location(id)}"
+                else:
+                    response = f"{get_all_locations()}"            
 
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
@@ -172,7 +182,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write("".encode())
 
     def do_PUT(self):
-        self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
@@ -180,20 +189,23 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
-        # Delete a single animal from the list
+        success = False
+
         if resource == "animals":
-            update_animal(id, post_body)
-
+            success = update_animal(id, post_body)
         if resource == "customers":
-            update_customer(id, post_body)
-
+            success = update_customer(id, post_body)
         if resource == "employees":
-            update_employee(id, post_body)
-        
+            success = update_employee(id, post_body)
         if resource == "locations":
-            update_location(id, post_body)
+            success = update_location(id, post_body)
+        # rest of the elif's
 
-        # Encode the new animal and send in response
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
         self.wfile.write("".encode())
 
 # This function is not inside the class. It is the starting
